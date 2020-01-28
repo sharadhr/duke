@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group 'seedu.duke'
+group 'sharadhr.duke'
 version '0.1.0'
 
 repositories {
@@ -12,9 +12,13 @@ repositories {
 
 application {
     // Change this to your main class.
-    mainClassName = "seedu.duke.Duke"
+    mainClassName = "sharadhr.duke.Duke"
 }
 
 run {
     standardInput = System.in
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }

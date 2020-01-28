@@ -31,4 +31,10 @@ public class Todo extends Task
     {
         return String.format("[%c]%s", this.getTaskTypeIcon(), super.toString());
     }
+    
+    @Override
+    public String encode()
+    {
+        return String.format("%c,%d,%s", this.getTaskTypeIcon(), this.complete ? 1 : 0, this.detail); 
+    }
 }
