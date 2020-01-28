@@ -51,4 +51,10 @@ public class Event extends Task
         //         this.getTaskTypeIcon(), super.toString(),
         //         this.startTime, this.endTime);
     }
+    
+    @Override
+    public String encode()
+    {
+        return String.format("%c,%d,%s,%s", this.getTaskTypeIcon(), this.complete ? 1 : 0, this.detail, this.duration);
+    }
 }

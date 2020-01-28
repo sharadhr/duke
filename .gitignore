@@ -18,3 +18,4 @@ bin/
 .classpath
 .project
 .settings/org.eclipse.buildship.core.prefs
+data/duke.txt

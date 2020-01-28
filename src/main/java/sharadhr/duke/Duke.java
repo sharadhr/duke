@@ -3,6 +3,7 @@ package sharadhr.duke;
 import sharadhr.duke.exception.DukeException;
 import sharadhr.duke.io.Input;
 import sharadhr.duke.io.Output;
+import sharadhr.duke.io.Storage;
 
 /**
  * 
@@ -11,6 +12,7 @@ public class Duke
 {
     static Input reader;
     static Output writer;
+    static Storage fileRW;
 
     /**
      * The program loop that runs whilst the user does not say 'bye'.
@@ -66,7 +68,6 @@ public class Duke
                 default:
                     break;
             }
-            
         } while (!exitLoop);
         return exitLoop;
     }
@@ -86,7 +87,8 @@ public class Duke
     
     public static void main(String[] args)
     {
-        // Initialises I/O.
+        // Initialises file and UI I/O.
+        fileRW = new Storage("data", "duke.txt");
         reader = new Input();
         writer = new Output();
 
@@ -96,6 +98,6 @@ public class Duke
         // Creates the task list.
         Task.createList();
 
-        if (!programLoop()) exit();
+        if (programLoop()) exit();
     }
 }

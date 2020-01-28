@@ -5,7 +5,7 @@ package sharadhr.duke;
  */
 public class Deadline extends Task
 {
-    String byString;
+    String by;
     
     private Deadline()
     {
@@ -20,7 +20,7 @@ public class Deadline extends Task
     Deadline(String by)
     {
         this();
-        this.byString = by;
+        this.by = by;
         
         // this.by = ZonedDateTime.of(
         // LocalDate.parse(tokens[0], DateTimeFormatter.ofPattern("dd/MM/uuuu")),
@@ -49,6 +49,12 @@ public class Deadline extends Task
     public String toString()
     {
         return String.format("[%c]%s (by: %s)", this.getTaskTypeIcon(), super.toString(),
-                this.byString);
+                this.by);
+    }
+    
+    @Override
+    public String encode()
+    {
+        return String.format("%c,%d,%s,%s", this.getTaskTypeIcon(), this.complete ? 1 : 0, this.detail, this.by);
     }
 }

@@ -60,6 +60,8 @@ public abstract class Task
         boolean added = Task.tasks.add(task);
 
         Duke.writer.sayTaskAdded(task);
+        Duke.fileRW.appendTask(task);
+        
         return added;
     }
     
@@ -146,6 +148,8 @@ public abstract class Task
      * @return the character representing the task type
      */
     public abstract char getTaskTypeIcon();
+    
+    public abstract String encode();
     
     @Override
     public String toString()
