@@ -13,4 +13,11 @@ public class DukeEmptyDetailException extends DukeException
     {
         super("Task detail cannot be empty.", thrownBy);
     }
+
+    @Override
+    public String toString()
+    {
+        // TODO Auto-generated method stub
+        return super.toString();
+    }
 }
