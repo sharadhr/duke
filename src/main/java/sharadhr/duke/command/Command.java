@@ -1,5 +1,7 @@
 package sharadhr.duke.command;
 
+import sharadhr.duke.exception.DukeEmptyDetailException;
+import sharadhr.duke.exception.DukeInvalidDateException;
 import sharadhr.duke.io.Storage;
 import sharadhr.duke.task.TaskList;
 
@@ -11,10 +13,11 @@ public abstract class Command
 {
     public enum CommandName
     {
-        TODO, DEADLINE, EVENT, LIST, DONE, DELETE, BY, AT, ON, EMPTY, INVALID, BYE
+        TODO, DEADLINE, EVENT, LIST, DONE, FIND, DELETE, BY, AT, ON, EMPTY, INVALID, BYE
     };
     
     protected CommandName commandName;
+    protected String argument;
     protected String[] argumentTokens;
     
     public static CommandName whichCommand(String token)
@@ -38,10 +41,10 @@ public abstract class Command
      * 
      * @param commandString the tokenised input from the user, as arguments to the command
      */
-    public Command(String[] commandTokens)
+    public Command(String... argumentTokens)
     {
-        this.argumentTokens = commandTokens;
+        this.argumentTokens = argumentTokens;
     }
 
-    public abstract void execute(TaskList tasks, Storage storage);
+    public abstract void execute(TaskList tasks, Storage storage) throws DukeEmptyDetailException, DukeInvalidDateException;
 }
