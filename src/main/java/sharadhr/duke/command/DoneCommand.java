@@ -14,6 +14,7 @@ public class DoneCommand extends Command
     DoneCommand(String[] commandTokens, int position) throws DukeInvalidArgumentException
     {
         super(commandTokens);
+        this.commandName = CommandName.DONE;
         this.position = position;
         
         if (this.argumentTokens.length != 2 || !this.argumentTokens[1].matches("\\d+"))

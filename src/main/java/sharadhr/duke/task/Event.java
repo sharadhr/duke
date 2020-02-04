@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import sharadhr.duke.exception.DukeEmptyDetailException;
 import sharadhr.duke.exception.DukeInvalidDateException;
+import sharadhr.duke.parse.DateParser;
 
 /**
  * An Event, with a detail, a start time, and an end time.
@@ -28,16 +29,19 @@ public class Event extends Task
      * the duration of the Event. The actual starting and ending
      * {@link ZonedDateTime} instance variables are parsed from this string.
      * 
-     * @param detail The Event detail
+     * @param detail     The Event detail
      * @param timeString the {@link String} describing the duration of the event
-     * @throws DukeEmptyDetailException if {@code detail} is blank (as specified by {@link String#isBlank()})
-     * @throws DukeInvalidDateException if the date cannot be parsed into a starting and ending date
+     * @throws DukeEmptyDetailException if {@code detail} is blank (as specified by
+     *                                  {@link String#isBlank()})
+     * @throws DukeInvalidDateException if the date cannot be parsed into a starting
+     *                                  and ending date
      */
-    public Event(String detail, String timeString) throws DukeEmptyDetailException, DukeInvalidDateException
+    public Event(String detail, String startString, String endString)
+            throws DukeEmptyDetailException, DukeInvalidDateException
     {
-        this(detail, ZonedDateTime.now(), ZonedDateTime.now());
+        this(detail, DateParser.parseDateTimeString(startString), 
+                DateParser.parseDateTimeString(endString));
     }
-
     
     public char getTaskTypeIcon()
     {
@@ -53,7 +57,7 @@ public class Event extends Task
     @Override
     public String encode()
     {
-        return String.format("%c,%d,%s,%s,%s", this.getTaskTypeIcon(), this.complete ? 1 : 0, this.detail,
-                this.startTime);
+        return String.format("%c,%d,%s,%s,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, 
+                this.detail, this.startTime, this.endTime);
     }
 }

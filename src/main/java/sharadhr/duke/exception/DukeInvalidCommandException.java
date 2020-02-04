@@ -19,7 +19,7 @@ public class DukeInvalidCommandException extends DukeException
     @Override
     public String toString()
     {
-        return String.format("Message:%s%s%nThrown by:%s%nStack trace:%s", this.getMessage(), this.command,
-                this.thrownBy, getStackTrace());
+        return String.format("Message:%s%s%nThrown by:%s%nStack trace:%s", 
+                this.getMessage(), this.command, this.thrownBy, getStackTrace());
     }
 }

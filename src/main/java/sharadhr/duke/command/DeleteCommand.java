@@ -15,10 +15,13 @@ public class DeleteCommand extends Command
     DeleteCommand(String[] argumentTokens, int position) throws DukeInvalidArgumentException
     {
         super(argumentTokens);
+        this.commandName = CommandName.DELETE;
         this.position = position;
         
-        if (this.argumentTokens.length != 2 || !this.argumentTokens[1].matches("\\d+"))
-            throw new DukeInvalidArgumentException(null, DeleteCommand.class.getSimpleName());
+        if (this.argumentTokens.length != 1 
+                || !this.argumentTokens[1].matches("\\d+") 
+                || Integer.parseInt(this.argumentTokens[1]) <= 1)
+            throw new DukeInvalidArgumentException("Delete command must be of the format: 'delete 12'", DeleteCommand.class.getSimpleName());
     }
 
     /**

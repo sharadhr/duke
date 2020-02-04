@@ -18,6 +18,7 @@ public class ListCommand extends Command
     public ListCommand(String[] commandTokens) throws DukeInvalidArgumentException
     {
         super(commandTokens);
+        this.commandName = CommandName.LIST;
         
         if (commandTokens.length != 1)
             throw new DukeInvalidArgumentException(null, ListCommand.class.getSimpleName());

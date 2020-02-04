@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import sharadhr.duke.exception.DukeEmptyDetailException;
 import sharadhr.duke.exception.DukeInvalidDateException;
+import sharadhr.duke.parse.DateParser;
 
 /**
  * A Deadline, with a date-time group when it is due.
@@ -24,12 +25,12 @@ public class Deadline extends Task
      * 
      * @param detail the deadline detail
      * @param by     the date-time to be done by
-     * @throws DukeEmptyDetailException
-     * @throws DukeInvalidArgumentException if the detail is empty.
+     * @throws DukeEmptyDetailException     if the detail is empty.
+     * @throws DukeInvalidDateException
      */
     public Deadline(String detail, String by) throws DukeEmptyDetailException, DukeInvalidDateException
     {
-        this(detail, ZonedDateTime.now());
+        this(detail, DateParser.parseDateTimeString(by));
     }
     
     @Override

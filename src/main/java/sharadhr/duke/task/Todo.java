@@ -34,6 +34,6 @@ public class Todo extends Task
     public String encode()
     {
         return String.format("%c,%d,%s", 
-                this.getTaskTypeIcon(), this.complete ? 1 : 0, this.detail);
+                this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail);
     }
 }

@@ -9,9 +9,9 @@ import sharadhr.duke.io.Storage;
  */
 public class Duke
 {
-    private static TaskList tasks;
-    private static Input reader;
-    static Output writer;
+    public static TaskList tasks;
+    public static Input input;
+    public static Output output;
     static Storage fileRW;
 
     public boolean run() {
@@ -19,8 +19,7 @@ public class Duke
     }
 
     /**
-     * Runs the main program loop, and returns {@code false} when the user says
-     * 'bye'.
+     * Runs the main program loop.
      * 
      * @return {@code false} when the user says 'bye'; otherwise, never returns.
      */
@@ -29,74 +28,7 @@ public class Duke
         boolean exitLoop = false;
         String command;
         
-        // do
-        // {
-        //     Command cmd = Command.whichCommand((command = reader.nextLine().getFirstToken()));
-        //     exitLoop = cmd.equals(Command.BYE);
-            
-        //     switch (cmd)
-        //     {
-        //         case TODO:
-        //             try
-        //             {
-        //                 tasks.addTask(new Todo(reader.inputWithoutFirstToken()));
-        //             }
-        //             catch (DukeException e)
-        //             {
-        //                 System.err.println(e);
-        //                 continue;
-        //             }
-        //             break;
-        //         case DEADLINE:
-        //             try
-        //             {
-        //                 tasks.addTask(new Deadline(reader.getFirstToken(), reader.getTime()));
-        //             }
-        //             catch (DukeException e)
-        //             {
-        //                 System.err.println(e);
-        //                 continue;
-        //             }
-        //             break;
-        //         case EVENT:
-        //             try
-        //             {
-        //                 tasks.addTask(new Event(reader.getDetail(), reader.getTime()));
-        //             }
-        //             catch (DukeException e)
-        //             {
-        //                 System.err.println(e);
-        //                 continue;
-        //             }
-        //             break;
-        //         case LIST:
-        //             tasks.listTasks();
-        //             break;
-        //         case DONE:
-        //             tasks.getTaskAtPosition(Integer.parseInt(reader.inputWithoutFirstToken())).markComplete();
-        //             break;
-        //         case DELETE:
-                    
-        //         case EMPTY:
-        //             writer.say("Empty input; please enter something.");
-        //             continue;
-        //         case INVALID:
-        //             try
-        //             {
-        //                 throw new DukeInvalidCommandException(command, Duke.class.getName());
-        //             }
-        //             catch (DukeException e)
-        //             {
-        //                 writer.say("Invalid command; try again.");
-        //             }
-        //             continue;
-        //         case BYE:
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // } while (!exitLoop);
-        // return exitLoop;
+        input.nextLine();
         return false;
     }
 
@@ -105,10 +37,10 @@ public class Duke
      */
     public static void exit()
     {
-        writer.sayGoodBye();
+        output.sayGoodBye();
 
-        reader.close();
-        writer.close();
+        input.close();
+        output.close();
 
         System.exit(0);
     }
@@ -117,11 +49,11 @@ public class Duke
     {
         // Initialises file and UI I/O
         fileRW = new Storage("data", "duke.txt");
-        reader = new Input();
-        writer = new Output();
+        input = new Input();
+        output = new Output();
 
         // Greets the user.
-        writer.sayHello();
+        output.sayHello();
 
         // Creates the task list
         tasks = new TaskList();

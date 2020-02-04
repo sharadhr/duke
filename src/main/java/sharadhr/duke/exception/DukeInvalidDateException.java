@@ -9,7 +9,7 @@ public class DukeInvalidDateException extends DukeException
 
     private String dateString;
     
-    public DukeInvalidDateException(String message, String thrownBy, String dateString)
+    public DukeInvalidDateException(String thrownBy, String dateString)
     {
         super("Invalid date format: ", thrownBy);
         this.dateString = dateString;

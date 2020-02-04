@@ -29,7 +29,7 @@ public class TaskList
         // Was the task successfully added to the list?
         boolean added = Task.tasks.add(task);
         
-        Duke.writer.sayTaskAdded(task);
+        Duke.output.sayTaskAdded(task);
         Duke.fileRW.appendTask(task);
         
         return added;
@@ -53,6 +53,11 @@ public class TaskList
         return this.getTaskAtIndex(position - 1);
     }
 
+    public Task[] findTasksWithKeyword(String keyword)
+    {
+        return this.tasks.stream().dropWhile(x -> !x.detail.contains(keyword)).toArray(Task[]::new);
+    }
+
     /**
      * Deletes the task at the specified {@code position}.
      * 
@@ -60,7 +65,7 @@ public class TaskList
      */
     public void deleteTaskAtPosition(int position)
     {
-        Duke.writer.sayTaskDeleted(this.getTaskAtPosition(position));
+        Duke.output.sayTaskDeleted(this.getTaskAtPosition(position));
         tasks.remove(position - 1);
     }
 
@@ -71,16 +76,16 @@ public class TaskList
     {
         if (!Task.tasks.isEmpty())
         {
-            Duke.writer.say("Here are the tasks in your list:");
+            Duke.output.say("Here are the tasks in your list:");
             
             int listNumber = 1;
             for (Task task : Task.tasks)
             {
-                Duke.writer.add(String.format("%d.%s%n", listNumber++, task));
+                Duke.output.add(String.format("%d.%s%n", listNumber++, task));
             }
-            Duke.writer.say();
+            Duke.output.say();
         }
-        else Duke.writer.say("You have no tasks in your list.");
+        else Duke.output.say("You have no tasks in your list.");
     }
 
 	public int numberOfTasks()

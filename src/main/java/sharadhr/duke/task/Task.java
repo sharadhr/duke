@@ -19,12 +19,11 @@ public abstract class Task
     protected static ArrayList<Task> tasks;
     
     protected String detail;
-    protected boolean complete;
+    protected boolean isComplete;
     
     Task()
     {
-        this.detail = "";
-        this.complete = false;
+        this.isComplete = false;
     }
     
     /**
@@ -52,7 +51,7 @@ public abstract class Task
      */
     public char getCompleteIcon()
     {
-        return complete ? '✔' : '✘';
+        return isComplete ? '✔' : '✘';
     }
     
     /**
@@ -64,10 +63,10 @@ public abstract class Task
      */
     public boolean markComplete()
     {
-        this.complete = true;
-        Duke.writer.sayTaskMarkedComplete(this);
+        this.isComplete = true;
+        Duke.output.sayTaskMarkedComplete(this);
         
-        return complete;
+        return isComplete;
     }
     
     /**
