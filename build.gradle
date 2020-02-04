@@ -1,14 +1,12 @@
 plugins {
     id 'java'
     id 'application'
+    id 'checkstyle'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'sharadhr.duke'
 version '0.1.0'
-
-repositories {
-    mavenCentral()
-}
 
 application {
     // Change this to your main class.
@@ -21,4 +19,19 @@ run {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+checkstyle {
+    toolVersion = '8.23'
+}
+
+shadowJar {
+    archiveBaseName = "duke"
+    archiveVersion = "0.1"
+    archiveClassifier = null
+    archiveAppendix = null
 }
