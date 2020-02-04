@@ -7,11 +7,16 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import sharadhr.duke.command.AddCommand;
+import sharadhr.duke.command.ByeCommand;
 import sharadhr.duke.command.Command;
 import sharadhr.duke.command.DeleteCommand;
 import sharadhr.duke.command.DoneCommand;
+import sharadhr.duke.command.FindCommand;
 import sharadhr.duke.command.ListCommand;
 import sharadhr.duke.exception.DukeInvalidArgumentException;
+import sharadhr.duke.exception.DukeInvalidCommandException;
+import sharadhr.duke.task.Duke;
 
 /**
  * A class to accept and parse user inputs from the input stream.
@@ -20,8 +25,9 @@ public class Input
 {
     private static BufferedReader reader;
     private static final Pattern whitespace = Pattern.compile("\\s+");
-    private static final Pattern slashCommands = Pattern.compile("(?i)\\/((at)|(by)|(on))");
-    
+    private static final Pattern slashCommands 
+            = Pattern.compile("(?i)\\/((from)|(to)|(at)|(by)|(on))");
+
     static String readline()
     {
         try
@@ -88,58 +94,36 @@ public class Input
         return this.getTokens()[0];
     }
     
-    public Command getCommand() throws DukeInvalidArgumentException
+    public Command getCommand() throws DukeInvalidArgumentException, DukeInvalidCommandException
     {
-        switch (Command.whichCommand(this.getFirstToken()))
+        String commandString = this.getFirstToken();
+        Command.CommandName cmd = Command.whichCommand(commandString);
+        switch (cmd)
         {
             case TODO:
-                return null;
+                return new AddCommand(this.getDetail(), cmd);
             case DEADLINE:
-                // try
-                // {
-                //     tasks.addTask(new Deadline(reader.getFirstToken(), reader.getTime()));
-                // }
-                // catch (DukeException e)
-                // {
-                //     System.err.println(e);
-                //     continue;
-                // }
-                break;
+                return new AddCommand(this.getDetail(), this.getFirstTimeString(), cmd);
             case EVENT:
-                // try
-                // {
-                //     tasks.addTask(new Event(reader.getDetail(), reader.getTime()));
-                // }
-                // catch (DukeException e)
-                // {
-                //     System.err.println(e);
-                //     continue;
-                // }
-                break;
+                return new AddCommand(this.getDetail(), 
+                        this.getFirstTimeString(), this.getNextTimeString(), cmd);
             case LIST:
                 return new ListCommand(this.tokensWithoutFirst());
             case DONE:
                 return new DoneCommand(this.tokensWithoutFirst());
+            case FIND:
+                return new FindCommand(this.tokensWithoutFirst());
             case DELETE:
                 return new DeleteCommand(this.tokensWithoutFirst());
             case EMPTY:
-                // writer.say("Empty input; please enter something.");
+                Duke.output.say("Empty input; please enter something.");
                 return null;
             case INVALID:
-                // try
-                // {
-                //     throw new DukeInvalidCommandException(command, Duke.class.getName());
-                // }
-                // catch (DukeException e)
-                // {
-                //     writer.say("Invalid command; try again.");
-                // }
-                // continue;
+                throw new DukeInvalidCommandException(commandString, Input.class.getSimpleName());
             case BYE:
-                break;
+                return new ByeCommand(commandString);
             default:
                 break;
-            
         }
         return null;
     }
@@ -151,19 +135,27 @@ public class Input
     
     public String inputWithoutFirstToken()
     {
-        return this.getTokenStream().skip(1).collect(Collectors.joining(""));
+        return this.getTokenStream().skip(1).collect(Collectors.joining(" "));
     }
     
     public String getDetail()
     {
-        return Stream.of(this.tokens).skip(1).takeWhile(slashCommands.asMatchPredicate().negate())
+        return this.getTokenStream().takeWhile(slashCommands.asMatchPredicate().negate())
                 .collect(Collectors.joining(" "));
     }
     
-    public String getTime()
+    public String getFirstTimeString()
     {
-        return Stream.of(this.tokens).dropWhile(slashCommands.asMatchPredicate().negate()).skip(1)
+        return this.getTokenStream().dropWhile(slashCommands.asMatchPredicate().negate())
+                .skip(1).takeWhile(slashCommands.asMatchPredicate().negate())
                 .collect(Collectors.joining(" "));
+    }
+
+    public String getNextTimeString()
+    {
+        return this.getTokenStream().dropWhile(slashCommands.asMatchPredicate().negate())
+                .skip(1).dropWhile(slashCommands.asMatchPredicate().negate())
+                .skip(1).collect(Collectors.joining(" "));
     }
     
     public void close()
@@ -174,7 +166,6 @@ public class Input
         }
         catch (IOException e)
         {
-            
             System.err.println("I/O Exception occurred.");
         }
     }
