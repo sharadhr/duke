@@ -1,18 +1,18 @@
-package sharadhr.duke.task;
+package sharadhr.duke;
 
 import sharadhr.duke.io.Input;
 import sharadhr.duke.io.Output;
 import sharadhr.duke.io.Storage;
+import sharadhr.duke.task.TaskList;
 
 /**
  * 
  */
-public class Duke
-{
+public class Duke {
     public static TaskList tasks;
     public static Input input;
     public static Output output;
-    static Storage fileRW;
+    public static Storage fileRW;
 
     public boolean run() {
         return false;
@@ -23,11 +23,10 @@ public class Duke
      * 
      * @return {@code false} when the user says 'bye'; otherwise, never returns.
      */
-    public static boolean programLoop()
-    {
+    public static boolean programLoop() {
         boolean exitLoop = false;
         String command;
-        
+
         input.nextLine();
         return false;
     }
@@ -35,8 +34,7 @@ public class Duke
     /**
      * Cleans up objects and quits the program by calling {@link System#exit(int)}.
      */
-    public static void exit()
-    {
+    public static void exit() {
         output.sayGoodBye();
 
         input.close();
@@ -44,9 +42,8 @@ public class Duke
 
         System.exit(0);
     }
-    
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
         // Initialises file and UI I/O
         fileRW = new Storage("data", "duke.txt");
         input = new Input();
@@ -58,6 +55,7 @@ public class Duke
         // Creates the task list
         tasks = new TaskList();
 
-        if (programLoop()) exit();
+        if (programLoop())
+            exit();
     }
 }
