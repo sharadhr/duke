@@ -29,6 +29,7 @@ public class AddCommand extends Command {
     public AddCommand(String detail, String startString, String endString, CommandName commandName)
     {
         super(detail, startString, endString);
+        this.commandName = commandName;
     }
 
     @Override public void execute(TaskList tasks, Storage storage, Output output)

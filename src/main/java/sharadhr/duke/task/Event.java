@@ -51,7 +51,7 @@ public class Event extends Task
 	@Override public String toString()
 	{
 		return String
-				.format("[%c]%s (at: %s)", this.getTaskTypeIcon(), super.toString(), this.duration);
+				.format("[%c]%s from: %s\t to: %s", this.getTaskTypeIcon(), super.toString(), DateParser.formatZonedDateTime(startTime), DateParser.formatZonedDateTime(endTime));
 	}
 
 	@Override public String encode()
