@@ -26,4 +26,10 @@ public class ByeCommand extends Command
 	{
 		Duke.exit();
 	}
+	
+	@Override
+	public boolean willTerminate()
+	{
+		return true;
+	}
 }

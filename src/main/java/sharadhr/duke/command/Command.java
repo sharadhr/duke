@@ -53,6 +53,11 @@ public abstract class Command
 	public abstract void execute(TaskList tasks, Storage storage, Output output)
 			throws DukeEmptyDetailException, DukeInvalidDateException;
 
+	public boolean willTerminate()
+	{
+		return false;
+	}
+
 	public enum CommandName
 	{
 		TODO, DEADLINE, EVENT, LIST, DONE, FIND, DELETE, FROM, BY, AT, ON, EMPTY, INVALID, BYE
