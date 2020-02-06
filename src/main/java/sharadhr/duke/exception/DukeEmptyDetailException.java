@@ -14,7 +14,6 @@ public class DukeEmptyDetailException extends DukeException {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
+        return String.format("%s%nThrown by:%n", this.getMessage(), this.thrownBy);
     }
 }
