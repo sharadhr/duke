@@ -22,7 +22,7 @@ public class DukeInvalidArgumentException extends DukeException
 
 	@Override public String toString()
 	{
-		return String.format("%s%nCommand: %s%nArguments: %s%nThrown by: %s%n", this.getMessage(),
+		return String.format("%s%nCommand: %s%nArguments: %s%nThrown by: %s", this.getMessage(),
 				this.cmdName, this.argumentString, this.thrownBy);
 	}
 }
