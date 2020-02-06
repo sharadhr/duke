@@ -9,27 +9,21 @@ import sharadhr.duke.task.TaskList;
 /**
  * ByeCommand
  */
-public class ByeCommand extends Command
-{
-	private final CommandName commandName = CommandName.BYE;
+public class ByeCommand extends Command {
+    private final CommandName commandName = CommandName.BYE;
 
-	public ByeCommand(String[] argumentTokens) throws DukeInvalidArgumentException
-	{
-		if (argumentTokens.length != 0)
-		{
-			throw new DukeInvalidArgumentException("Bye command should have no arguments.",
-					argumentTokens, this.commandName, this.getClass().getSimpleName());
-		}
-	}
+    public ByeCommand(String[] argumentTokens) throws DukeInvalidArgumentException {
+        if (argumentTokens.length != 0) {
+            throw new DukeInvalidArgumentException("Bye command should have no arguments.", argumentTokens,
+                this.commandName, this.getClass().getSimpleName());
+        }
+    }
 
-	@Override public void execute(TaskList tasks, Storage storage, Output output)
-	{
-		Duke.exit();
-	}
-	
-	@Override
-	public boolean willTerminate()
-	{
-		return true;
-	}
+    @Override public void execute(TaskList tasks, Storage storage, Output output) {
+        Duke.exit();
+    }
+
+    @Override public boolean willTerminate() {
+        return true;
+    }
 }

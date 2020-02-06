@@ -2,20 +2,14 @@ package sharadhr.duke.task;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+class EventTest {
 
-class EventTest
-{
+    @Test void getTaskTypeIcon() {
+    }
 
-	@Test void getTaskTypeIcon()
-	{
-	}
+    @Test void testToString() {
+    }
 
-	@Test void testToString()
-	{
-	}
-
-	@Test void encode()
-	{
-	}
+    @Test void encode() {
+    }
 }

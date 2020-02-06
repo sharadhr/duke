@@ -2,12 +2,8 @@ package sharadhr.duke.command;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+class DoneCommandTest {
 
-class DoneCommandTest
-{
-
-	@Test void execute()
-	{
-	}
+    @Test void execute() {
+    }
 }
