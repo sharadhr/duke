@@ -84,7 +84,8 @@ public abstract class Task {
     /**
      * Returns this task as an encoded {@link String}, to be written to the data file.
      *
-     * @return The encoded String, as a comma-separated value (for easy opening in spreadsheet files)
+     * @return The encoded String, as a comma-separated value (for easy opening in spreadsheet
+     * files)
      */
     public abstract String encode();
 

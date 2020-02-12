@@ -19,8 +19,9 @@ public class ListCommand extends Command {
         this.commandName = CommandName.LIST;
 
         if (commandTokens.length != 0) {
-            throw new DukeInvalidArgumentException("List command must have no arguments.", commandTokens,
-                this.commandName, this.getClass().getSimpleName());
+            throw new DukeInvalidArgumentException("List command must have no arguments.",
+                                                   commandTokens, this.commandName,
+                                                   this.getClass().getSimpleName());
         }
 
     }

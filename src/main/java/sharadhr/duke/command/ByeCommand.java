@@ -14,8 +14,9 @@ public class ByeCommand extends Command {
 
     public ByeCommand(String[] argumentTokens) throws DukeInvalidArgumentException {
         if (argumentTokens.length != 0) {
-            throw new DukeInvalidArgumentException("Bye command should have no arguments.", argumentTokens,
-                this.commandName, this.getClass().getSimpleName());
+            throw new DukeInvalidArgumentException("Bye command should have no arguments.",
+                                                   argumentTokens, this.commandName,
+                                                   this.getClass().getSimpleName());
         }
     }
 

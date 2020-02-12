@@ -1,7 +1,7 @@
 package sharadhr.duke.task;
 
 import sharadhr.duke.exception.DukeEmptyDetailException;
-import sharadhr.duke.exception.DukeInvalidDateException;
+import sharadhr.duke.exception.DukeInvalidDateTimeException;
 import sharadhr.duke.parse.DateParser;
 
 import java.time.ZonedDateTime;
@@ -17,7 +17,8 @@ public class Deadline extends Task {
      * @param by
      * @throws DukeEmptyDetailException
      */
-    public Deadline(String detail, boolean isComplete, ZonedDateTime by) throws DukeEmptyDetailException {
+    public Deadline(String detail, boolean isComplete, ZonedDateTime by)
+        throws DukeEmptyDetailException {
         super(detail, isComplete);
         this.by = by;
     }
@@ -27,10 +28,11 @@ public class Deadline extends Task {
      *
      * @param detail the deadline detail
      * @param by     the date-time to be done by
-     * @throws DukeEmptyDetailException if the detail is empty.
-     * @throws DukeInvalidDateException if the given date-time {@link String} cannot be parsed.
+     * @throws DukeEmptyDetailException     if the detail is empty.
+     * @throws DukeInvalidDateTimeException if the given date-time {@link String} cannot be parsed.
      */
-    public Deadline(String detail, String by) throws DukeEmptyDetailException, DukeInvalidDateException {
+    public Deadline(String detail, String by)
+        throws DukeEmptyDetailException, DukeInvalidDateTimeException {
         this(detail, false, DateParser.parseDateTimeString(by));
     }
 
@@ -40,11 +42,12 @@ public class Deadline extends Task {
 
     @Override public String toString() {
         return String.format("[%c]%s (by: %s)", this.getTaskTypeIcon(), super.toString(),
-            DateParser.formatZonedDateTime(this.by));
+                             DateParser.formatZonedDateTime(this.by));
     }
 
     @Override public String encode() {
-        return String.format("%c,%d,%s,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail,
-            DateParser.formatZonedDateTime(this.by));
+        return String
+            .format("%c,%d,%s,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail,
+                    DateParser.formatZonedDateTime(this.by));
     }
 }

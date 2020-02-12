@@ -29,6 +29,7 @@ public class Todo extends Task {
     }
 
     @Override public String encode() {
-        return String.format("%c,%d,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail);
+        return String
+            .format("%c,%d,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail);
     }
 }

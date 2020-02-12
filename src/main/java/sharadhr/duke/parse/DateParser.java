@@ -1,6 +1,6 @@
 package sharadhr.duke.parse;
 
-import sharadhr.duke.exception.DukeInvalidDateException;
+import sharadhr.duke.exception.DukeInvalidDateTimeException;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,21 +16,25 @@ import java.util.Optional;
  * vice-versa, useable by the Duke program.
  */
 public final class DateParser {
-    private static final DateTimeFormatter DAY_FORMAT_PATTERN = DateTimeFormatter.ofPattern("[EEEE][E]")
-        .withResolverFields(ChronoField.DAY_OF_WEEK);
-    private static final DateTimeFormatter DATE_FORMAT_PATTERN = DateTimeFormatter
-        .ofPattern("[dd][d]['st']['nd']['rd']['th'][' of'][/][-][ ][LLLL][MMM][L][, ][/][-][ ][uuuu]")
-        .withResolverFields(ChronoField.DAY_OF_MONTH, ChronoField.MONTH_OF_YEAR, ChronoField.YEAR);
+    private static final DateTimeFormatter DAY_FORMAT_PATTERN = DateTimeFormatter
+        .ofPattern("[EEEE][E]").withResolverFields(ChronoField.DAY_OF_WEEK);
+    private static final DateTimeFormatter DATE_FORMAT_PATTERN = DateTimeFormatter.ofPattern(
+        "[dd][d]['st']['nd']['rd']['th'][' of'][/][-][ ][LLLL][MMM][L][, ][/][-][ ][uuuu]")
+                                                                                  .withResolverFields(
+                                                                                      ChronoField.DAY_OF_MONTH,
+                                                                                      ChronoField.MONTH_OF_YEAR,
+                                                                                      ChronoField.YEAR);
     private static final DateTimeFormatter TIME_FORMAT_PATTERN = DateTimeFormatter
         .ofPattern("[kk[[:][.]mm]][[hh][h][[:][.]mm][ ]a][ v]")
-        .withResolverFields(ChronoField.HOUR_OF_DAY, ChronoField.CLOCK_HOUR_OF_AMPM, ChronoField.MINUTE_OF_HOUR,
-            ChronoField.AMPM_OF_DAY, ChronoField.OFFSET_SECONDS);
+        .withResolverFields(ChronoField.HOUR_OF_DAY, ChronoField.CLOCK_HOUR_OF_AMPM,
+                            ChronoField.MINUTE_OF_HOUR, ChronoField.AMPM_OF_DAY,
+                            ChronoField.OFFSET_SECONDS);
     private static final DateTimeFormatter[] FORMATTERS = { DAY_FORMAT_PATTERN, DATE_FORMAT_PATTERN,
         TIME_FORMAT_PATTERN };
 
     private static final DateTimeFormatter OUTPUT_FORMAT_PATTERN = DateTimeFormatter
-        .ofPattern("EEEE dd MMMM YYYY hh:mm a v").withLocale(Locale.ENGLISH).withZone(java.time.ZoneId.systemDefault())
-        .withResolverFields(ChronoField.values());
+        .ofPattern("EEEE dd MMMM YYYY hh:mm a v").withLocale(Locale.ENGLISH)
+        .withZone(java.time.ZoneId.systemDefault()).withResolverFields(ChronoField.values());
 
     private static final ZonedDateTime now = ZonedDateTime.now();
 
@@ -39,9 +43,10 @@ public final class DateParser {
      *
      * @param dateTimeString the {@link java.lang.String} to be parsed
      * @return the date-time object after parsing the string
-     * @throws DukeInvalidDateException if {@code dateTimeString} cannot be parsed
+     * @throws DukeInvalidDateTimeException if {@code dateTimeString} cannot be parsed
      */
-    public static ZonedDateTime parseDateTimeString(String dateTimeString) throws DukeInvalidDateException {
+    public static ZonedDateTime parseDateTimeString(String dateTimeString)
+        throws DukeInvalidDateTimeException {
         ZonedDateTime returnable = now;
 
         for (DateTimeFormatter formatter : FORMATTERS) {
@@ -82,10 +87,11 @@ public final class DateParser {
      * @param string
      * @param formatter
      * @return
-     * @throws DukeInvalidDateException
+     * @throws DukeInvalidDateTimeException
      */
-    private static ZonedDateTime parseStringWithFormatter(String string, DateTimeFormatter formatter)
-        throws DukeInvalidDateException {
+    private static ZonedDateTime parseStringWithFormatter(String string,
+                                                          DateTimeFormatter formatter)
+        throws DukeInvalidDateTimeException {
         Optional<TemporalAccessor> possiblyParsed;
 
         ZonedDateTime returnable = ZonedDateTime.ofInstant(now.toInstant(), now.getZone());
@@ -98,7 +104,8 @@ public final class DateParser {
         if (possiblyParsed.isPresent()) {
             TemporalAccessor parsed = possiblyParsed.get();
             for (TemporalField field : formatter.getResolverFields()) {
-                returnable = returnable.with(field, parsed.isSupported(field) ? parsed.get(field) : now.get(field));
+                returnable = returnable
+                    .with(field, parsed.isSupported(field) ? parsed.get(field) : now.get(field));
             }
         }
         return returnable;
