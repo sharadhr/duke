@@ -5,7 +5,7 @@ import sharadhr.duke.command.Command;
 import sharadhr.duke.exception.DukeEmptyDetailException;
 import sharadhr.duke.exception.DukeInvalidArgumentException;
 import sharadhr.duke.exception.DukeInvalidCommandException;
-import sharadhr.duke.exception.DukeInvalidDateException;
+import sharadhr.duke.exception.DukeInvalidDateTimeException;
 import sharadhr.duke.io.Input;
 import sharadhr.duke.io.Output;
 import sharadhr.duke.io.Storage;
@@ -21,6 +21,10 @@ public class Duke {
     public static Input input;
     public static Output output;
     public static Storage fileRW;
+
+    public Duke(String... filePath) {
+        
+    }
 
     /**
      * Runs the main program loop.
@@ -39,7 +43,7 @@ public class Duke {
                 possibleCommand.get().execute(tasks, fileRW, output);
                 isExit = possibleCommand.get().willTerminate();
             }
-            catch (DukeInvalidArgumentException | DukeInvalidCommandException | DukeEmptyDetailException | DukeInvalidDateException e) {
+            catch (DukeInvalidArgumentException | DukeInvalidCommandException | DukeEmptyDetailException | DukeInvalidDateTimeException e) {
                 output.sayError(e);
             }
         }
@@ -76,6 +80,6 @@ public class Duke {
     }
 
     public String getResponse(String input) {
-        return "";
+        
     }
 }
