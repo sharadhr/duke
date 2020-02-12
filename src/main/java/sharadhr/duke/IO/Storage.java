@@ -25,8 +25,8 @@ public class Storage {
 
     private BufferedWriter writer;
 
-    public Storage(String... directory) {
-        this.taskFile = Paths.get(".", directory).normalize().toAbsolutePath();
+    public Storage(String... filePath) {
+        this.taskFile = Paths.get(".", filePath).normalize().toAbsolutePath();
 
         try {
             Files.createDirectories(this.taskFile.getParent());
@@ -35,7 +35,8 @@ public class Storage {
                 Files.createFile(this.taskFile);
             }
 
-            this.writer = Files.newBufferedWriter(this.taskFile, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            this.writer = Files.newBufferedWriter(this.taskFile, StandardOpenOption.WRITE,
+                                                  StandardOpenOption.APPEND);
             Files.newBufferedReader(this.taskFile);
         }
         catch (IOException e) {
@@ -54,19 +55,17 @@ public class Storage {
         try {
             switch (tokens[0]) {
             case "T":
-                return tokens.length == 3 ?
-                    Optional.of(new Todo(tokens[2], Boolean.parseBoolean(tokens[1]))) :
-                    Optional.empty();
+                return tokens.length == 3 ? Optional
+                    .of(new Todo(tokens[2], Boolean.parseBoolean(tokens[1]))) : Optional.empty();
             case "D":
-                return tokens.length == 4 ?
-                    Optional.of(new Deadline(tokens[2], Boolean.parseBoolean(tokens[1]),
-                        DateParser.parseDateTimeString(tokens[3]))) :
-                    Optional.empty();
+                return tokens.length == 4 ? Optional
+                    .of(new Deadline(tokens[2], Boolean.parseBoolean(tokens[1]),
+                                     DateParser.parseDateTimeString(tokens[3]))) : Optional.empty();
             case "E":
-                return tokens.length == 5 ?
-                    Optional.of(new Event(tokens[2], Boolean.parseBoolean(tokens[1]),
-                        DateParser.parseDateTimeString(tokens[3]), DateParser.parseDateTimeString(tokens[4]))) :
-                    Optional.empty();
+                return tokens.length == 5 ? Optional
+                    .of(new Event(tokens[2], Boolean.parseBoolean(tokens[1]),
+                                  DateParser.parseDateTimeString(tokens[3]),
+                                  DateParser.parseDateTimeString(tokens[4]))) : Optional.empty();
             default:
                 return Optional.empty();
             }
@@ -77,6 +76,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Encodes and appends {@code task} to this file.
+     *
+     * @param task the {@link Task} to be encoded and written to this file
+     */
     public void appendTaskToFile(Task task) {
         try {
             writer.append(task.encode());
@@ -97,8 +101,8 @@ public class Storage {
     public TaskList loadFromFile() {
         try {
             return new TaskList(
-                Files.lines(taskFile).map(Storage::decodeLine).filter(Optional::isPresent).map(Optional::get)
-                    .collect(Collectors.toList()));
+                Files.lines(taskFile).map(Storage::decodeLine).filter(Optional::isPresent)
+                     .map(Optional::get).collect(Collectors.toList()));
         }
         catch (IOException e) {
             Duke.output.sayError(e);

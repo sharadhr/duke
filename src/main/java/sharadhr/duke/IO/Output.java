@@ -11,8 +11,9 @@ import java.util.Arrays;
  * Duke, to the standard output.
  */
 public class Output {
-    static final String logo = "\n ____        _        \n" + "|  _ \\ _   _| | _____ \n" + "| | | | | | | |/ / _ \\\n"
-        + "| |_| | |_| |   <  __/\n" + "|____/ \\__,_|_|\\_\\___|\n";
+    static final String logo =
+        "\n ____        _        \n" + "|  _ \\ _   _| | _____ \n" + "| | | | | | | |/ / _ \\\n"
+            + "| |_| | |_| |   <  __/\n" + "|____/ \\__,_|_|\\_\\___|\n";
     BufferedWriter writer;
 
     public Output() {
@@ -100,7 +101,7 @@ public class Output {
 
     public void sayError(Exception e) {
         this.say("**************************ERROR**************************", e.toString(),
-            "**************************ERROR**************************");
+                 "**************************ERROR**************************");
     }
 
     /**

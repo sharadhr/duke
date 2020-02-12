@@ -23,7 +23,8 @@ import java.util.stream.Stream;
  */
 public class Input {
     private static final Pattern whitespace = Pattern.compile("\\s+");
-    private static final Pattern slashCommands = Pattern.compile("(?i)\\/((from)|(to)|(at)|(by)|(on))");
+    private static final Pattern slashCommands = Pattern
+        .compile("(?i)\\/((from)|(to)|(at)|(by)|(on))");
     private static BufferedReader reader;
     protected String line;
 
@@ -31,6 +32,7 @@ public class Input {
     // Instance
     /////////////////////////////////////////////////////////////////////////
     protected String[] tokens;
+
     public Input() {
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -86,11 +88,13 @@ public class Input {
      * Returns a {@link Command}, using the first token in the user input,
      * appropriately parsed with the rest of the user input.
      *
-     * @return the user input as an executable {@link Command} object, containing the parsed and tokenised input.
+     * @return the user input as an executable {@link Command} object, containing the parsed and
+     * tokenised input.
      * @throws DukeInvalidArgumentException if the arguments to the command are incorrect
      * @throws DukeInvalidCommandException  if the command itself is invalid.
      */
-    public Optional<Command> getCommand() throws DukeInvalidArgumentException, DukeInvalidCommandException {
+    public Optional<Command> getCommand()
+        throws DukeInvalidArgumentException, DukeInvalidCommandException {
         String commandString = this.getFirstToken();
         Command.CommandName cmd = Command.whichCommand(commandString);
         switch (cmd) {
@@ -99,8 +103,8 @@ public class Input {
         case DEADLINE:
             return Optional.of(new AddCommand(this.getDetail(), this.getFirstTimeString(), cmd));
         case EVENT:
-            return Optional
-                .of(new AddCommand(this.getDetail(), this.getFirstTimeString(), this.getNextTimeString(), cmd));
+            return Optional.of(new AddCommand(this.getDetail(), this.getFirstTimeString(),
+                                              this.getNextTimeString(), cmd));
         case LIST:
             return Optional.of(new ListCommand(this.tokensWithoutFirst()));
         case DONE:
@@ -130,17 +134,19 @@ public class Input {
 
     public String getDetail() {
         return this.getTokenStream().skip(1).takeWhile(slashCommands.asMatchPredicate().negate())
-            .collect(Collectors.joining(" "));
+                   .collect(Collectors.joining(" "));
     }
 
     public String getFirstTimeString() {
         return this.getTokenStream().dropWhile(slashCommands.asMatchPredicate().negate()).skip(1)
-            .takeWhile(slashCommands.asMatchPredicate().negate()).collect(Collectors.joining(" "));
+                   .takeWhile(slashCommands.asMatchPredicate().negate())
+                   .collect(Collectors.joining(" "));
     }
 
     public String getNextTimeString() {
         return this.getTokenStream().dropWhile(slashCommands.asMatchPredicate().negate()).skip(1)
-            .dropWhile(slashCommands.asMatchPredicate().negate()).skip(1).collect(Collectors.joining(" "));
+                   .dropWhile(slashCommands.asMatchPredicate().negate()).skip(1)
+                   .collect(Collectors.joining(" "));
     }
 
     public void close() {
