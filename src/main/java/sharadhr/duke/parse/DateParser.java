@@ -53,7 +53,9 @@ public final class DateParser {
         Optional<ZonedDateTime> returnable = Optional.empty();
 
         for (DateTimeFormatter formatter : FORMATTERS) {
-            returnable = parseStringWithFormatter(dateTimeString, formatter, returnable);
+            for (String token : dateTimeString.split("\\s+")) {
+                returnable = parseStringWithFormatter(token, formatter, returnable);
+            }
         }
         return returnable.orElseThrow(
             () -> new DukeInvalidDateTimeException(DateParser.class.getName(), dateTimeString));
@@ -120,6 +122,5 @@ public final class DateParser {
         } else {
             return possibleZDT;
         }
-
     }
 }
