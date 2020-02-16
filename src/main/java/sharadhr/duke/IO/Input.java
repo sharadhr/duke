@@ -12,6 +12,7 @@ import sharadhr.duke.exception.DukeInvalidCommandException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -37,6 +38,10 @@ public class Input {
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    public Input(InputStream is) {
+        reader = new BufferedReader(new InputStreamReader(is));
+    }
+
     static String readline() {
         try {
             return reader.readLine();
@@ -45,6 +50,11 @@ public class Input {
             System.err.println("I/O exception occurred.");
             return "";
         }
+    }
+
+    public void setFromString(String input) {
+        this.line = input;
+        this.tokens = input.trim().split("\\s+");
     }
 
     /**
@@ -116,7 +126,7 @@ public class Input {
         case EMPTY:
             return Optional.empty();
         case INVALID:
-            throw new DukeInvalidCommandException(commandString, this.getClass().getSimpleName());
+            throw new DukeInvalidCommandException(commandString, this.getClass().getName());
         case BYE:
             return Optional.of(new ByeCommand(this.tokensWithoutFirst()));
         default:
@@ -124,14 +134,30 @@ public class Input {
         }
     }
 
+    /**
+     * Returns all of this {@link Input}'s tokens minus the first, as a {@link String}[].
+     *
+     * @return a {@link String}[] of tokens
+     */
     public String[] tokensWithoutFirst() {
         return this.getTokenStream().skip(1).toArray(String[]::new);
     }
 
+    /**
+     * Returns all of this {@link Input}'s tokens minus the first, as a single {@link String},
+     * delimited by a single space.
+     *
+     * @return a single string of space-delimited tokens
+     */
     public String inputWithoutFirstToken() {
         return this.getTokenStream().skip(1).collect(Collectors.joining(" "));
     }
 
+    /**
+     * Returns this {@link Input}'s {@code detail} as a single string, with the tokens
+     *
+     * @return A
+     */
     public String getDetail() {
         return this.getTokenStream().skip(1).takeWhile(slashCommands.asMatchPredicate().negate())
                    .collect(Collectors.joining(" "));

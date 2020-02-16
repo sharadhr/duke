@@ -3,6 +3,8 @@ package sharadhr.duke.io;
 import sharadhr.duke.task.Task;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
@@ -11,7 +13,7 @@ import java.util.Arrays;
  * Duke, to the standard output.
  */
 public class Output {
-    static final String logo =
+    private static final String logo =
         "\n ____        _        \n" + "|  _ \\ _   _| | _____ \n" + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n" + "|____/ \\__,_|_|\\_\\___|\n";
     BufferedWriter writer;
@@ -20,12 +22,16 @@ public class Output {
         this.writer = new BufferedWriter(new OutputStreamWriter(System.out));
     }
 
+    public Output(OutputStream os) {
+        this.writer = new BufferedWriter(new OutputStreamWriter(os));
+    }
+
     /////////////////////////////////////////////////////////////////////////
     // Instance
     /////////////////////////////////////////////////////////////////////////
 
     static void ioException() {
-        System.err.println("I/O Exception occurred.");
+        System.err.println("I/O Error occurred.");
     }
 
     void appendWithNewline(String string) {
@@ -78,7 +84,7 @@ public class Output {
             this.appendWithNewline(message);
             this.writer.flush();
         }
-        catch (Exception e) {
+        catch (IOException e) {
             ioException();
         }
     }
@@ -94,14 +100,14 @@ public class Output {
             this.appendWithNewline(messages);
             writer.flush();
         }
-        catch (Exception e) {
+        catch (IOException e) {
             ioException();
         }
     }
 
     public void sayError(Exception e) {
-        this.say("**************************ERROR**************************", e.toString(),
-                 "**************************ERROR**************************");
+        this.say("************************ERROR************************", e.toString(),
+                 "************************ERROR************************");
     }
 
     /**

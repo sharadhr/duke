@@ -11,6 +11,9 @@ import sharadhr.duke.io.Output;
 import sharadhr.duke.io.Storage;
 import sharadhr.duke.task.TaskList;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Optional;
 
 /**
@@ -21,9 +24,22 @@ public class Duke {
     public static Input input;
     public static Output output;
     public static Storage fileRW;
+    public static PrintStream outputPS;
+    public static ByteArrayInputStream baIS;
+    public static ByteArrayOutputStream baOS;
 
     public Duke(String... filePath) {
-        
+        fileRW = new Storage(filePath);
+        assert fileRW != null || input != null || output != null;
+
+        baOS = new ByteArrayOutputStream();
+        outputPS = new PrintStream(baOS);
+        System.setOut(outputPS);
+        output = new Output(outputPS);
+
+        input = new Input();
+
+        tasks = fileRW.loadFromFile();
     }
 
     /**
@@ -63,23 +79,42 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        // Initialises file and UI I/O
-        fileRW = new Storage("data", "duke.txt");
-        input = new Input();
-        output = new Output();
+        //new Duke("data", "duke.csv");
 
-        // Greets the user.
         output.sayHello();
 
         // Creates the task list
-        tasks = fileRW.loadFromFile();
 
         if (programLoop()) {
             exit();
         }
     }
 
-    public String getResponse(String input) {
-        
+    public String getResponse() {
+        boolean isExit = false;
+        try {
+            Optional<Command> possibleCommand = input.getCommand();
+            if (!possibleCommand.isPresent()) {
+                output.say("Input cannot be empty; please enter a command.");
+            }
+            possibleCommand.get().execute(tasks, fileRW, output);
+            isExit = possibleCommand.get().willTerminate();
+        }
+        catch (DukeInvalidArgumentException | DukeInvalidCommandException | DukeEmptyDetailException | DukeInvalidDateTimeException e) {
+            output.sayError(e);
+        }
+
+        if (isExit) {
+            exit();
+        }
+
+        String returnable = baOS.toString();
+        baOS.reset();
+
+        return returnable;
+    }
+
+    public void redirect(String inputString) {
+        input.setFromString(inputString);
     }
 }
