@@ -21,7 +21,7 @@ public class ByeCommand extends Command {
     }
 
     @Override public void execute(TaskList tasks, Storage storage, Output output) {
-        Duke.exit();
+        Duke.output.sayGoodBye();
     }
 
     @Override public boolean willTerminate() {

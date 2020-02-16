@@ -27,8 +27,9 @@ public class Event extends Task {
      * the duration of the Event. The actual starting and ending
      * {@link ZonedDateTime} instance variables are parsed from this string.
      *
-     * @param detail     The Event detail
-     * @param timeString the {@link String} describing the duration of the event
+     * @param detail      the Event detail
+     * @param startString the starting date/time of this {@link sharadhr.duke.task.Event}
+     * @param endString   the ending date/time of this {@link sharadhr.duke.task.Event}
      * @throws DukeEmptyDetailException     if {@code detail} is blank (as specified by
      *                                      {@link String#isBlank()})
      * @throws DukeInvalidDateTimeException if the date cannot be parsed into a starting
@@ -38,6 +39,7 @@ public class Event extends Task {
         throws DukeEmptyDetailException, DukeInvalidDateTimeException {
         this(detail, false, DateParser.parseDateTimeString(startString),
              DateParser.parseDateTimeString(endString));
+        assert !this.isComplete;
     }
 
     public char getTaskTypeIcon() {
@@ -53,6 +55,7 @@ public class Event extends Task {
     @Override public String encode() {
         return String
             .format("%c,%d,%s,%s,%s", this.getTaskTypeIcon(), this.isComplete ? 1 : 0, this.detail,
-                    this.startTime.toString(), this.endTime.toString());
+                    DateParser.encodeZonedDateTime(this.startTime),
+                    DateParser.encodeZonedDateTime(this.endTime));
     }
 }

@@ -30,8 +30,7 @@ public class TaskList {
      *
      * @param task A task to be added to the list.
      * @return {@code true} if task was successfully added (as specified by
-     * {@link ArrayList#add})
-     * @throws IOException
+     * {@link java.util.ArrayList#add(java.lang.Object)})
      */
     public boolean addTask(Task task) {
         // Was the task successfully added to the list?
@@ -99,7 +98,7 @@ public class TaskList {
     }
 
     /**
-     * Returns the number of tasks in this {@link sharadhr.duke.task.TaskList}.
+     * Returns the number of tasks in this {@link TaskList}.
      *
      * @return The number of tasks
      */

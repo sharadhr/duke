@@ -25,6 +25,12 @@ public class Storage {
 
     private BufferedWriter writer;
 
+    /**
+     * Creates a new {@link Storage} object for working with the data file as saved by Duke,
+     * using the provided {@code filePath}.
+     *
+     * @param filePath a comma-separated list of the file directory structure
+     */
     public Storage(String... filePath) {
         this.taskFile = Paths.get(".", filePath).normalize().toAbsolutePath();
 
@@ -45,7 +51,7 @@ public class Storage {
     }
 
     /**
-     * Returns a possible {@link Task} after decoding {@code line}
+     * Returns a possible {@link Task} after decoding {@code line}.
      *
      * @param line A line from the file
      * @return A possible task; returns {@link Optional#empty()} if line cannot be decoded
@@ -60,12 +66,12 @@ public class Storage {
             case "D":
                 return tokens.length == 4 ? Optional
                     .of(new Deadline(tokens[2], Boolean.parseBoolean(tokens[1]),
-                                     DateParser.parseDateTimeString(tokens[3]))) : Optional.empty();
+                                     DateParser.decodeString(tokens[3]))) : Optional.empty();
             case "E":
                 return tokens.length == 5 ? Optional
                     .of(new Event(tokens[2], Boolean.parseBoolean(tokens[1]),
-                                  DateParser.parseDateTimeString(tokens[3]),
-                                  DateParser.parseDateTimeString(tokens[4]))) : Optional.empty();
+                                  DateParser.decodeString(tokens[3]),
+                                  DateParser.decodeString(tokens[4]))) : Optional.empty();
             default:
                 return Optional.empty();
             }
@@ -88,7 +94,7 @@ public class Storage {
             writer.flush();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            Output.ioException();
         }
     }
 
@@ -105,7 +111,8 @@ public class Storage {
                      .map(Optional::get).collect(Collectors.toList()));
         }
         catch (IOException e) {
-            Duke.output.sayError(e);
+            Output.ioException();
+            Duke.output.say("File could not be read; creating new list.");
             return new TaskList();
         }
     }
