@@ -1,5 +1,10 @@
 package sharadhr.duke;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Optional;
+
 import javafx.application.Platform;
 import sharadhr.duke.command.Command;
 import sharadhr.duke.exception.DukeEmptyDetailException;
@@ -10,11 +15,6 @@ import sharadhr.duke.io.Input;
 import sharadhr.duke.io.Output;
 import sharadhr.duke.io.Storage;
 import sharadhr.duke.task.TaskList;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Optional;
 
 /**
  *
@@ -97,8 +97,11 @@ public class Duke {
             if (!possibleCommand.isPresent()) {
                 output.say("Input cannot be empty; please enter a command.");
             }
-            possibleCommand.get().execute(tasks, fileRW, output);
-            isExit = possibleCommand.get().willTerminate();
+            else
+            {
+                possibleCommand.get().execute(tasks, fileRW, output);
+                isExit = possibleCommand.get().willTerminate();
+            }
         }
         catch (DukeInvalidArgumentException | DukeInvalidCommandException | DukeEmptyDetailException | DukeInvalidDateTimeException e) {
             output.sayError(e);
