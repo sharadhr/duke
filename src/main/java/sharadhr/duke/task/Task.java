@@ -18,6 +18,7 @@ public abstract class Task {
 
     Task() {
         this.isComplete = false;
+        assert !isComplete;
     }
 
     /**
@@ -69,13 +70,18 @@ public abstract class Task {
         return isComplete;
     }
 
+    /**
+     * Sets this {@link Task}'s completion status to {@code status}.
+     *
+     * @param status Completed or not
+     */
     public void setCompleteStatus(boolean status) {
         this.isComplete = status;
     }
 
     /**
-     * Returns a character representing the type of Task (To-Do, Deadline, or
-     * Event).
+     * Returns a character representing the type of {@link Task} ({@link Todo}, {@link Deadline}, or
+     * {@link Event}).
      *
      * @return the character representing the task type
      */

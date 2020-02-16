@@ -13,7 +13,6 @@ import sharadhr.duke.task.Todo;
  * AddCommand
  */
 public class AddCommand extends Command {
-    private CommandName commandName;
 
     public AddCommand(String detail, CommandName commandName) {
         super(detail);
