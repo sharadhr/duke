@@ -6,12 +6,11 @@ import sharadhr.duke.exception.DukeEmptyDetailException;
  * A To-Do; effectively the same as the inherited abstract class, {@link Task}.
  */
 public class Todo extends Task {
-
     /**
      * Creates a Todo with some detail.
      *
      * @param detail the Todo detail
-     * @throws DukeEmptyDetailException if the detail is blank
+     * @throws DukeInvalidArgumentException if the detail is blank
      */
     public Todo(String detail) throws DukeEmptyDetailException {
         super(detail);
