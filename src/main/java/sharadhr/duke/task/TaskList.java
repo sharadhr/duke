@@ -1,11 +1,14 @@
 package sharadhr.duke.task;
 
-import sharadhr.duke.Duke;
-import sharadhr.duke.io.Output;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import sharadhr.duke.Duke;
+import sharadhr.duke.io.Output;
+
+/**
+ * A list of tasks, and methods to interact with that list (add, delete, find, enumerate through).
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
@@ -30,7 +33,7 @@ public class TaskList {
      *
      * @param task A task to be added to the list.
      * @return {@code true} if task was successfully added (as specified by
-     * {@link java.util.ArrayList#add(java.lang.Object)})
+     * {@link ArrayList#add})
      */
     public boolean addTask(Task task) {
         // Was the task successfully added to the list?
@@ -63,7 +66,7 @@ public class TaskList {
      * {@code keyword}.
      *
      * @param keyword the keyword to look up
-     * @return
+     * @return the tasks that have been found
      */
     public Task[] findTasksWithKeyword(String keyword) {
         return this.tasks.stream().dropWhile(x -> !x.detail.contains(keyword)).toArray(Task[]::new);
@@ -81,7 +84,7 @@ public class TaskList {
     /**
      * Prints the tasks in this list.
      *
-     * @param output
+     * @param output the {@link Output} object to use to print with
      */
     public void listTasks(Output output) {
         if (!this.tasks.isEmpty()) {

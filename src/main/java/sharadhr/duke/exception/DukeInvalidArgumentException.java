@@ -3,7 +3,7 @@ package sharadhr.duke.exception;
 import sharadhr.duke.command.Command.CommandName;
 
 /**
- * InvalidArgumentException
+ * Thrown when arguments to a command are invalid, and not as specified in the docs
  */
 public class DukeInvalidArgumentException extends DukeException {
     private static final long serialVersionUID = 5221851007504557801L;
