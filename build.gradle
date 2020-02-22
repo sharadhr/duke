@@ -5,10 +5,13 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
+sourceCompatibility=JavaVersion.VERSION_11
+targetCompatibility=JavaVersion.VERSION_11
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.5.0'
 
-    String javaFxVersion = '13'
+    String javaFxVersion = '11.0.1'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'

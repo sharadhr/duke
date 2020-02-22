@@ -18,7 +18,7 @@ bin/
 .vscode/
 .classpath
 .project
-.settings/org.eclipse.buildship.core.prefs
+.settings/
 
 # Program data
 data/
