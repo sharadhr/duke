@@ -30,6 +30,7 @@ public class MainWindow extends AnchorPane {
 
     @FXML public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(Duke.output.helloString(), dukeImage));
     }
 
     public void setDuke(Duke d) {
@@ -41,10 +42,12 @@ public class MainWindow extends AnchorPane {
      * Duke's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
-    @FXML private void handleUserInput() {
-        // Redirects user input in the text field to stdin.
+    @FXML
+    private void handleUserInput()
+    {
         String input = userInput.getText();
 
+        // Redirects user input in the text field to stdin.
         duke.redirect(input);
 
         String response = duke.getResponse();

@@ -3,6 +3,7 @@ package sharadhr.duke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -19,7 +20,8 @@ import sharadhr.duke.task.TaskList;
 /**
  *
  */
-public class Duke {
+public class Duke
+{
     public static TaskList tasks;
     public static Input input;
     public static Output output;
@@ -28,12 +30,21 @@ public class Duke {
     public static ByteArrayInputStream baIS;
     public static ByteArrayOutputStream baOS;
 
-    public Duke(String... filePath) {
+    public Duke(String... filePath)
+    {
         fileRW = new Storage(filePath);
         assert fileRW != null || input != null || output != null;
-
+        
         baOS = new ByteArrayOutputStream();
-        outputPS = new PrintStream(baOS);
+        try
+        {
+            outputPS = new PrintStream(baOS, true, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            ;
+        }
+
         System.setOut(outputPS);
         output = new Output(outputPS);
 
@@ -90,7 +101,9 @@ public class Duke {
         }
     }
 
-    public String getResponse() {
+    public String getResponse()
+    {
+        
         boolean isExit = false;
         try {
             Optional<Command> possibleCommand = input.getCommand();

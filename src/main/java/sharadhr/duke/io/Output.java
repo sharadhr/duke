@@ -6,24 +6,37 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
  * A class to neatly format and write any output from the organiser chat bot,
  * Duke, to the standard output.
  */
-public class Output {
-    private static final String logo =
-        "\n ____        _        \n" + "|  _ \\ _   _| | _____ \n" + "| | | | | | | |/ / _ \\\n"
-            + "| |_| | |_| |   <  __/\n" + "|____/ \\__,_|_|\\_\\___|\n";
+public class Output
+{
+    private static final String LOGO = "\n ____        _        \n" 
+                                     + "|  _ \\ _   _| | _____ \n"
+                                     + "| | | | | | | |/ / _ \\\n" 
+                                     + "| |_| | |_| |   <  __/\n" 
+                                     + "|____/ \\__,_|_|\\_\\___|\n";
     BufferedWriter writer;
-
-    public Output() {
+    
+    public Output()
+    {
         this.writer = new BufferedWriter(new OutputStreamWriter(System.out));
     }
-
-    public Output(OutputStream os) {
-        this.writer = new BufferedWriter(new OutputStreamWriter(os));
+    
+    public Output(OutputStream os)
+    {
+        try
+        {
+            this.writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            this.sayError(e);
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -106,15 +119,20 @@ public class Output {
     }
 
     public void sayError(Exception e) {
-        this.say("************************ERROR************************", e.toString(),
-                 "************************ERROR************************");
+        this.say("**********************ERROR**********************", e.toString(),
+                 "**********************ERROR**********************");
     }
 
     /**
      * Greets the user.
      */
-    public void sayHello() {
-        this.say("Hello, this is" + logo + "How can I help?");
+    public void sayHello()
+    {
+        this.say("Hello, this is" + LOGO + "How can I help?");
+    }
+    
+    public String helloString() {
+        return "Hello, this is" + LOGO + "How can I help?";
     }
 
     /**
