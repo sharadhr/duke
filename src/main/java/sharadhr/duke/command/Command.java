@@ -1,6 +1,7 @@
 package sharadhr.duke.command;
 
 import sharadhr.duke.exception.DukeEmptyDetailException;
+import sharadhr.duke.exception.DukeInvalidArgumentException;
 import sharadhr.duke.exception.DukeInvalidDateTimeException;
 import sharadhr.duke.io.Output;
 import sharadhr.duke.io.Storage;
@@ -43,9 +44,10 @@ public abstract class Command {
      * @param output  An {@link Output} object to write to the standard output
      * @throws DukeEmptyDetailException     If the detail in this command is empty
      * @throws DukeInvalidDateTimeException If the date in this command cannot be parsed
+     * @throws DukeInvalidArgumentException
      */
     public abstract void execute(TaskList tasks, Storage storage, Output output)
-        throws DukeEmptyDetailException, DukeInvalidDateTimeException;
+        throws DukeEmptyDetailException, DukeInvalidDateTimeException, DukeInvalidArgumentException;
 
     /**
      * @return

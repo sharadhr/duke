@@ -29,10 +29,15 @@ public class DeleteCommand extends Command {
         this.position = Integer.parseInt(this.argumentTokens[0]);
     }
 
-    @Override public void execute(TaskList tasks, Storage storage, Output output) {
-        if (this.position >= 1 && this.position <= tasks.numberOfTasks()) {
+    @Override public void execute(TaskList tasks, Storage storage, Output output) throws DukeInvalidArgumentException
+    {
+        if (this.position >= 1 && this.position <= tasks.numberOfTasks())
+        {
             output.sayTaskDeleted(tasks.getTaskAtPosition(position));
             tasks.deleteTaskAtPosition(position);
         }
+        else
+            throw new DukeInvalidArgumentException("This item cannot be deleted.", argumentTokens, commandName,
+                    this.getClass().getSimpleName());
     }
 }

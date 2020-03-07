@@ -26,12 +26,17 @@ public class DoneCommand extends Command {
         this.position = Integer.parseInt(this.argumentTokens[0]);
     }
 
-    @Override public void execute(TaskList tasks, Storage storage, Output output) {
-        if ((this.position >= 1) && this.position <= tasks.numberOfTasks()) {
+    @Override public void execute(TaskList tasks, Storage storage, Output output) throws DukeInvalidArgumentException
+    {
+        if ((this.position >= 1) && this.position <= tasks.numberOfTasks())
+        {
             Task toComplete = tasks.getTaskAtPosition(position);
-            if (toComplete.markComplete()) {
+            if (toComplete.markComplete())
+            {
                 output.sayTaskMarkedComplete(toComplete);
             }
         }
+        throw new DukeInvalidArgumentException("There is no such item in the list.", argumentTokens, commandName,
+                this.getClass().getSimpleName());
     }
 }
